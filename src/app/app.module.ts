@@ -13,13 +13,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from "@angular/fire";
 import { environment } from 'src/environments/environment';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
-import { AddtaskComponent } from './addtask/addtask.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddtaskComponent
   ],
   imports: [
     BrowserModule,

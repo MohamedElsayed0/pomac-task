@@ -9,8 +9,10 @@ export class TaskService {
   constructor(private db:AngularFireDatabase) { 
 
   }
-
   getTaskes(){
-    return this.db.list('/NewTask').valueChanges()
+    return this.db.list('/NewTask').snapshotChanges()
+  }
+  getTaskId(id:string){
+    return this.db.object(`/NewTask/${id}`).valueChanges();
   }
 }

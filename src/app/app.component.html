@@ -1,14 +1,76 @@
-
-
 <div class="container-fluid">
 
-      <app-addtask></app-addtask>
+  <div class="align-self-start">
+    <!-- Button trigger modal -->
+    <button type="button" mat-button data-toggle="modal" data-target="#exampleModalCenter1"
+      style='width: 15rem;height: 60px;'>
+      <i class="fas fa-plus"></i>New Taske
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">New Task</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form [formGroup]="newTaskForm">
+              <div class="form-group">
+                <label>Title</label>
+                <input #taskfaild formControlName='taskeTitle' type="text" class="form-control"
+                  placeholder="Enter title">
+                <small class="form-text text-muted">This is a requird filed</small>
+              </div>
+
+              <div class="form-group">
+
+                <label>Description</label>
+                <textarea #taskfaild formControlName='description' type="text" class="form-control"
+                  placeholder="Enter Description"></textarea>
+                <small class="form-text text-muted">This is a requird filed</small>
+              </div>
+
+              <div class="form-group">
+                <label>Selct User</label>
+                <select #taskfaild formControlName='selectUser' class="selectpicker form-control" multiple>
+                  <option value="ahmed">ahmed</option>
+                  <option value="aya">aya</option>
+                  <option value="ahmed">ahmed</option>
+                </select>
+                <small class="form-text text-muted">This is a requird filed</small>
+              </div>
+
+              <div class="form-group">
+                <label> Date </label>
+                <!-- <input type="text" class="form-control" formControlName='date' placeholder=" M / D / Y"> -->
+                <input class="form-control" type="text" name="daterange" value="01/01/2018" formControlName='date' />
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)='onSubmitTask(taskfaild)' type="submit" class="btn btn-primary" data-dismiss="modal"
+                  [disabled]="!newTaskForm.valid">submit</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div cdkDropListGroup class="row flex-nowrap align-items-center mt-5">
 
     <div cdkDropList (cdkDropListDropped)="drop($event)" *ngFor='let list of mainLists; let i = index '
-      [cdkDropListData]="list" class="card text-start example-list">
+      [cdkDropListData]="list" class=" text-start example-list">
 
       <div class="card-header row align-items-center">
         <span class="text-primary mr-auto">{{columnList[i]}}</span>
@@ -17,14 +79,28 @@
         </button>
       </div>
 
-      <div class="card-body example-box" *ngFor="let currentList of list" cdkDrag>
-        <h5 class="card-title">{{currentList.taskeTitle}}</h5>
-        <p class="card-text"> {{currentList.description}}.</p>
-        <div class="card-footer text-muted">
-          {{currentList.date}}
+      <div class="example-box" *ngFor="let currentList of list; let i = index" cdkDrag (click)="edite(i)">
+        <div class="title row">
+          <h5 class="card-title mr-auto col-9">{{currentList.payload.val().taskeTitle}}</h5>
+
+          <a routerLink="/" [queryParams]="{currentId:currentList.key}" data-toggle="modal"
+            data-target="#exampleModalCenter1">
+            <span class="material-icons col-2">
+              edit
+            </span>
+          </a>
+        </div>
+
+        <p class="card-text"> {{currentList.payload.val().description}}</p>
+        <div class="text-muted">
+          <small>
+            <span class="material-icons" style="font-size:12px">
+              watch_later
+            </span>
+            {{currentList.payload.val().date}}
+          </small>
         </div>
       </div>
-
     </div>
 
     <div class="align-self-start">
