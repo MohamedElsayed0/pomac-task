@@ -16,9 +16,8 @@ export class AppComponent implements OnInit {
   mainLists = [];
   taskList = [];
   doneList = [];
-  columnList = [];
+  columnList = ["hello"];
   id;
-  taskEdite = {};
 
 
   constructor(private fb: FormBuilder,
@@ -33,6 +32,11 @@ export class AppComponent implements OnInit {
     /// GET COLUMNS
     this.columnService.getColumnNames().subscribe((names: any) => {
       this.columnList = names;
+      let index = (names.length) - (this.mainLists.length);
+      for (let i = 0; i < index; i++) {
+        let newcol = [];
+        this.mainLists.push(newcol)
+      }
     });
     // GET TASKS
     this.taskService.getTaskes().subscribe((data) => {
@@ -65,7 +69,6 @@ export class AppComponent implements OnInit {
   //// SUBMIT TASK
   onSubmitTask(taskfaild: HTMLInputElement) {
     this.db.list('NewTask').push(this.newTaskForm.value)
-    taskfaild.value = '';
   }
 
   //////// Edite user 
@@ -73,7 +76,6 @@ export class AppComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.queryParamMap.get("currentId");
     if (this.id) {
       this.taskService.getTaskId(this.id).subscribe((item: any) => {
-        console.log(item);
 
         this.taskeTitle.setValue(item.taskeTitle);
         this.description.setValue(item.description);
@@ -82,6 +84,10 @@ export class AppComponent implements OnInit {
 
       })
     }
+  }
+
+  updateTask(){
+    this.taskService.updateTask(this.id,this.newTaskForm.value)
   }
   /////////// new column form
   newColumnForm: FormGroup = this.fb.group({

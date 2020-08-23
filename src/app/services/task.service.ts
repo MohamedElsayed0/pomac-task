@@ -15,4 +15,8 @@ export class TaskService {
   getTaskId(id:string){
     return this.db.object(`/NewTask/${id}`).valueChanges();
   }
+
+  updateTask(id,task){
+    return this.db.object(`/NewTask/${id}`).update(task);
+  }
 }

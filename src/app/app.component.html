@@ -54,8 +54,17 @@
 
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button (click)='onSubmitTask(taskfaild)' type="submit" class="btn btn-primary" data-dismiss="modal"
+                <ng-template #temp>
+                  <button (click)='onSubmitTask(taskfaild)' type="submit" class="btn btn-primary" data-dismiss="modal"
                   [disabled]="!newTaskForm.valid">submit</button>
+                </ng-template>
+
+
+                  
+                    <button *ngIf='id else temp' (click)='updateTask()' type="submit" class="btn btn-primary" data-dismiss="modal"
+                    [disabled]="!newTaskForm.valid">save</button>
+                  
+
               </div>
 
             </form>
@@ -69,7 +78,7 @@
 
   <div cdkDropListGroup class="row flex-nowrap align-items-center mt-5">
 
-    <div cdkDropList (cdkDropListDropped)="drop($event)" *ngFor='let list of mainLists; let i = index '
+    <div cdkDropList (cdkDropListDropped)="drop($event)" *ngFor='let list of mainLists ; let i = index '
       [cdkDropListData]="list" class=" text-start example-list">
 
       <div class="card-header row align-items-center">
